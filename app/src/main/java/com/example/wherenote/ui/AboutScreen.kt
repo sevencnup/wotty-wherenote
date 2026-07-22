@@ -41,15 +41,15 @@ fun AboutContent(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(8.dp))
         Text(
-            "一款记录「东西放在哪里」的小工具。随手记一笔:物品、位置、备注、照片," +
-                "以后搜索即可找回,再不用翻箱倒柜找东西。",
+            "丢三落四、随手放找不到？阿巴阿巴.....这是一款记录「东西放在哪里」的小工具。随手记一笔:物品、位置、备注、照片," +
+                "以后搜索即可找回,再不用翻箱倒柜找东西，芜湖~",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
 
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
         Text("当前版本", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
-        Text("v0.2.2", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+        Text("v0.2.3", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
 
         Spacer(Modifier.height(12.dp))
         Button(

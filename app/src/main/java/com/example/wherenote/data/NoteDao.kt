@@ -13,6 +13,9 @@ interface NoteDao {
     @Query("SELECT * FROM notes ORDER BY createdAt DESC")
     fun observeAll(): Flow<List<Note>>
 
+    @Query("SELECT * FROM notes")
+    suspend fun getAllOnce(): List<Note>
+
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :key || '%' OR location LIKE '%' || :key || '%' OR remark LIKE '%' || :key || '%' ORDER BY createdAt DESC")
     fun search(key: String): Flow<List<Note>>
 

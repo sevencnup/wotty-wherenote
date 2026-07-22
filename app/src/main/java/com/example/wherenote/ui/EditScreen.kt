@@ -1,6 +1,5 @@
 package com.example.wherenote.ui
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -52,13 +51,13 @@ fun EditContent(
     var location by remember { mutableStateOf(editing?.location ?: "") }
     var remark by remember { mutableStateOf(editing?.remark ?: "") }
     var photoPath by remember { mutableStateOf(editing?.photoPath) }
-    var pendingUri by remember { mutableStateOf<Uri?>(null) }
+    var pendingFile by remember { mutableStateOf<File?>(null) }
 
     val camLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
-        if (ok && pendingUri != null) {
-            photoPath = pendingUri!!.path?.let { File(it).absolutePath }
+        if (ok && pendingFile != null) {
+            photoPath = pendingFile!!.absolutePath
         }
-        pendingUri = null
+        pendingFile = null
     }
 
     Column(
@@ -96,7 +95,7 @@ fun EditContent(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(onClick = {
                 val (file, uri) = PhotoUtil.newPhotoTarget(context)
-                pendingUri = uri
+                pendingFile = file
                 camLauncher.launch(uri)
             }) {
                 Icon(Icons.Default.CameraAlt, contentDescription = null)

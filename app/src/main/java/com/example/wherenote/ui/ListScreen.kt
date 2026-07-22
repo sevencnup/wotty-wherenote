@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -57,19 +58,35 @@ fun ListContent(
         if (notes.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        Icons.Default.Inbox,
-                        contentDescription = null,
-                        modifier = Modifier.size(56.dp),
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-                    Spacer(Modifier.padding(8.dp))
-                    Text("还没有记录", style = MaterialTheme.typography.titleMedium)
-                    Text(
-                        "去「记住」页记一条吧",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.outline
-                    )
+                    if (query.isBlank()) {
+                        Icon(
+                            Icons.Default.Inbox,
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp),
+                            tint = MaterialTheme.colorScheme.outline
+                        )
+                        Spacer(Modifier.padding(8.dp))
+                        Text("还没有记录", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            "去「记住」页记一条吧",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.outline
+                        )
+                    } else {
+                        Icon(
+                            Icons.Default.SearchOff,
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp),
+                            tint = MaterialTheme.colorScheme.outline
+                        )
+                        Spacer(Modifier.padding(8.dp))
+                        Text("未找到相关记录", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            "关键词「$query」没有匹配项,换一个试试",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.outline
+                        )
+                    }
                 }
             }
         } else {

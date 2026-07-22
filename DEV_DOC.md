@@ -47,6 +47,12 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.2.3 (2026-07-22)
+- 修复拍照后图片不显示:旧代码从 FileProvider Uri 取路径得到的是 content-uri 段而非真实文件路径,改为保存 newPhotoTarget 返回的 File.absolutePath。
+- 启动时自动修复历史错误 photoPath(把 /photos/xxx.jpg 形式的旧路径对回 filesDir,救回旧记录照片)。
+- 搜索无结果时显示「未找到相关记录 + 关键词」,与「还没有记录」区分,便于确认搜索已生效。
+- versionCode 5 / versionName 0.2.3。
+
 ### v0.2.2 (2026-07-22)
 - 修复顶部「高额头」:改用单一 Scaffold,消除嵌套 Scaffold 导致的状态栏内边距叠加。
 - 底部导航栏高度调低(80→60dp),去除多余系统内边距。
