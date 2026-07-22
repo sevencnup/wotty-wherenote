@@ -35,11 +35,11 @@ class MainActivity : ComponentActivity() {
                     "edit" -> EditScreen(
                         editing = editing,
                         onBack = { screen = "list" },
-                        onSave = { title, location, remark ->
+                        onSave = { title, location, remark, photoPath ->
                             if (editing == null) {
-                                vm.add(title, location, remark)
+                                vm.add(title, location, remark, photoPath)
                             } else {
-                                vm.update(editing!!.copy(title = title.trim(), location = location.trim(), remark = remark.trim()))
+                                vm.update(editing!!.copy(title = title.trim(), location = location.trim(), remark = remark.trim(), photoPath = photoPath))
                             }
                             screen = "list"
                         }

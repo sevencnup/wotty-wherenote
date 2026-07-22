@@ -9,5 +9,6 @@ data class Note(
     val title: String,
     val location: String,
     val remark: String = "",
+    val photoPath: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 )

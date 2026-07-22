@@ -27,10 +27,15 @@ class NoteViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setQuery(q: String) { _query.value = q }
 
-    fun add(title: String, location: String, remark: String) {
+    fun add(title: String, location: String, remark: String, photoPath: String?) {
         if (title.isBlank()) return
         viewModelScope.launch {
-            dao.insert(Note(title = title.trim(), location = location.trim(), remark = remark.trim()))
+            dao.insert(Note(
+                title = title.trim(),
+                location = location.trim(),
+                remark = remark.trim(),
+                photoPath = photoPath
+            ))
         }
     }
 
@@ -40,5 +45,6 @@ class NoteViewModel(app: Application) : AndroidViewModel(app) {
 
     fun delete(note: Note) {
         viewModelScope.launch { dao.delete(note) }
+        note.photoPath?.let { runCatching { java.io.File(it).delete() } }
     }
 }

@@ -47,6 +47,12 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.2.0 (2026-07-22)
+- 新增:编辑/新增页支持拍照记录,走系统相机 + FileProvider 保存到 filesDir/photos。
+- Note 实体增加 photoPath 字段;Room 升 v2,采用 fallbackToDestructiveMigration。
+- 列表卡片展示缩略图;删除记录时一并清理照片文件。
+- versionCode 2 / versionName 0.2.0。
+
 ### v0.1.0 (2026-07-22)
 - 初始骨架:Jetpack Compose + Room + Material3。
 - 实现记录的增、列表、搜索、编辑、删除 MVP 流程。
