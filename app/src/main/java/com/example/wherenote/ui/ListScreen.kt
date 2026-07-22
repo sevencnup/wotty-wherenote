@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +40,6 @@ import java.util.Locale
 @Composable
 fun ListScreen(
     vm: NoteViewModel,
-    onAdd: () -> Unit,
     onEdit: (Note) -> Unit
 ) {
     val query by vm.query.collectAsState()
@@ -50,12 +47,7 @@ fun ListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("随记 · 物品在哪") })
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAdd) {
-                Icon(Icons.Default.Add, contentDescription = "新增")
-            }
+            TopAppBar(title = { Text("东西在哪") })
         }
     ) { pad ->
         Column(Modifier.fillMaxSize().padding(pad)) {
@@ -69,7 +61,7 @@ fun ListScreen(
             )
             if (notes.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("还没有记录,点右下角 + 添加一条吧", color = MaterialTheme.colorScheme.outline)
+                    Text("还没有记录,去「记住」页记一条吧", color = MaterialTheme.colorScheme.outline)
                 }
             } else {
                 LazyColumn(
