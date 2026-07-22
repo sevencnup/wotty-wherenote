@@ -47,6 +47,11 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.2.4 (2026-07-22)
+- 点击记录改为从底部滑出 ModalBottomSheet 详情页(标题/位置/备注/大图/时间),不再跳转记住页。
+- 详情页提供「编辑」(跳转记住页编辑)与「删除」按钮,补齐删除整条记录入口。
+- versionCode 6 / versionName 0.2.4。
+
 ### v0.2.3 (2026-07-22)
 - 修复拍照后图片不显示:旧代码从 FileProvider Uri 取路径得到的是 content-uri 段而非真实文件路径,改为保存 newPhotoTarget 返回的 File.absolutePath。
 - 启动时自动修复历史错误 photoPath(把 /photos/xxx.jpg 形式的旧路径对回 filesDir,救回旧记录照片)。

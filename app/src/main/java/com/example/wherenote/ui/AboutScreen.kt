@@ -49,7 +49,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
 
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
         Text("当前版本", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
-        Text("v0.2.3", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+        Text("v0.2.4", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
 
         Spacer(Modifier.height(12.dp))
         Button(
