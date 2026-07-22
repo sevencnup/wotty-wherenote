@@ -47,6 +47,11 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.2.5 (2026-07-22)
+- 拍照后自动压缩:长边缩到 1080px、JPEG 质量 82,原地覆盖(原 ~3MB → 约 200KB 量级),显著降低存储增长。
+- 关于页新增可点击网站链接 wherennote.sevencn.com,manifest 加 queries 允许拉起浏览器。
+- versionCode 7 / versionName 0.2.5。
+
 ### v0.2.4 (2026-07-22)
 - 点击记录改为从底部滑出 ModalBottomSheet 详情页(标题/位置/备注/大图/时间),不再跳转记住页。
 - 详情页提供「编辑」(跳转记住页编辑)与「删除」按钮,补齐删除整条记录入口。

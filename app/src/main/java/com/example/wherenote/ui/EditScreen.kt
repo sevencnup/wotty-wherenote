@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.wherenote.data.Note
 import com.example.wherenote.util.PhotoUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 @Composable
@@ -52,12 +56,17 @@ fun EditContent(
     var remark by remember { mutableStateOf(editing?.remark ?: "") }
     var photoPath by remember { mutableStateOf(editing?.photoPath) }
     var pendingFile by remember { mutableStateOf<File?>(null) }
+    val scope = rememberCoroutineScope()
 
     val camLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { ok ->
-        if (ok && pendingFile != null) {
-            photoPath = pendingFile!!.absolutePath
-        }
+        val raw = pendingFile
         pendingFile = null
+        if (ok && raw != null) {
+            scope.launch {
+                withContext(Dispatchers.IO) { runCatching { PhotoUtil.compressInPlace(raw) } }
+                photoPath = raw.absolutePath
+            }
+        }
     }
 
     Column(

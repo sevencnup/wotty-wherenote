@@ -1,8 +1,11 @@
 package com.example.wherenote.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,10 +13,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +33,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     // 更新地址暂留空,后续填入实际 URL 即可启用跳转
     val updateUrl = ""
+    val siteUrl = "https://wherenote.sevencn.com"
 
     Column(
         modifier
@@ -49,7 +57,19 @@ fun AboutContent(modifier: Modifier = Modifier) {
 
         HorizontalDivider(Modifier.padding(vertical = 8.dp))
         Text("当前版本", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.outline)
-        Text("v0.2.4", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+        Text("v0.2.5", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+
+        Spacer(Modifier.height(4.dp))
+        TextButton(onClick = {
+            runCatching {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl)))
+            }
+        }) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Public, contentDescription = null, modifier = Modifier.padding(end = 6.dp))
+                Text(siteUrl.removePrefix("https://"))
+            }
+        }
 
         Spacer(Modifier.height(12.dp))
         Button(
