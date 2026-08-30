@@ -35,7 +35,7 @@ body {
 .mountain-waves-fallback {
   background-color: #f9fbf9;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 720' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='rear' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop stop-color='%23bfdccc'/%3E%3Cstop offset='1' stop-color='%23e2f1e8'/%3E%3C/linearGradient%3E%3ClinearGradient id='front' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop stop-color='%23f8fbf9'/%3E%3Cstop offset='1' stop-color='%23edf6f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23rear)' d='M0 720V310C150 430 270 300 405 350C535 400 665 190 825 315C970 430 1110 240 1260 300C1340 330 1385 155 1440 120V720Z'/%3E%3Cpath fill='url(%23front)' d='M0 720V520C310 550 520 535 700 450C920 345 1160 385 1440 500V720Z'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 720' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='rear' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop stop-color='%23bfdccc'/%3E%3Cstop offset='1' stop-color='%23e2f1e8'/%3E%3C/linearGradient%3E%3ClinearGradient id='front' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop stop-color='%23e6f5eb'/%3E%3Cstop offset='1' stop-color='%23f1f8f3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23rear)' d='M0 720V310C150 430 270 300 405 350C535 400 665 190 825 315C970 430 1110 240 1260 300C1340 330 1385 155 1440 120V720Z'/%3E%3Cpath fill='url(%23front)' d='M0 720V520C310 550 520 535 700 450C920 345 1160 385 1440 500V720Z'/%3E%3C/svg%3E");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

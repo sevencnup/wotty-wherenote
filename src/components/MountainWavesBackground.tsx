@@ -68,8 +68,8 @@ const fragmentShader = `
     );
     float frontDepth = smoothstep(0.0, max(frontEdge, 0.001), vUv.y);
     vec3 frontColor = mix(
-      vec3(0.940, 0.966, 0.951),
-      vec3(0.978, 0.985, 0.980),
+      vec3(0.945, 0.973, 0.956),
+      vec3(0.900, 0.960, 0.920),
       frontDepth
     );
 
