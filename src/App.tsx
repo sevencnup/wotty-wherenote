@@ -27,7 +27,10 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#f5f8f5] text-slate-800 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-900">
+    <div className="min-h-screen bg-[#f5f8f5] text-slate-800 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-900 relative">
+      {/* 贯穿顶部的真实山峦背景装饰 */}
+      <MountainWavesBackground />
+
       {/* 顶部导航栏 (Navbar) */}
       <header className="sticky top-0 z-50 glass-panel border-b border-emerald-900/5 transition-all">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 h-20 flex items-center justify-between">
@@ -143,11 +146,7 @@ export default function App() {
       </header>
 
       {/* 主体区域 */}
-      <main className="flex-1 relative overflow-hidden">
-        {/* 背景起伏波浪装饰 */}
-        <MountainWavesBackground className="top-12 opacity-85" />
-        <MountainWavesBackground className="top-[580px] opacity-40 rotate-180 scale-x-[-1]" />
-        <MountainWavesBackground className="bottom-0 opacity-70" />
+      <main className="flex-1 relative">
 
         {/* 1. Hero 首屏展示区 */}
         <section id="home" className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 sm:pt-14 pb-16 lg:pb-24 relative">

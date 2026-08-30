@@ -1,84 +1,83 @@
 import React from 'react';
 
 /**
- * 柔和淡绿有机山峦/波浪背景装饰组件
- * 模拟多层起伏山峦与半透明渐变薄雾质感
+ * 1:1 还原参考图的高清有机山峦与起伏波浪背景
  */
 export const MountainWavesBackground: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <div className={`pointer-events-none absolute inset-x-0 overflow-hidden select-none -z-10 ${className}`}>
+    <div className={`pointer-events-none absolute inset-x-0 top-0 w-full overflow-hidden select-none -z-10 ${className}`}>
       <svg
-        className="w-full h-auto min-w-[1440px] opacity-80"
-        viewBox="0 0 1440 460"
+        className="w-full h-[520px] sm:h-[620px] lg:h-[720px] object-cover object-top"
+        viewBox="0 0 1920 650"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
       >
         <defs>
-          {/* 最远层：最右侧淡绿山丘 */}
-          <linearGradient id="hillFarRight" x1="1200" y1="50" x2="1200" y2="460" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#CDE8D8" stopOpacity="0.65" />
-            <stop offset="60%" stopColor="#E2F3EA" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#F5F9F6" stopOpacity="0" />
+          {/* 最远层右侧大山峰渐变 */}
+          <linearGradient id="peakRight" x1="1720" y1="80" x2="1720" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#BCDCCB" stopOpacity="0.85" />
+            <stop offset="70%" stopColor="#D8EDE1" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.1" />
           </linearGradient>
 
-          {/* 远景山丘 2（偏右中间） */}
-          <linearGradient id="hillMidRight" x1="1050" y1="120" x2="1050" y2="460" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#BFE2CD" stopOpacity="0.7" />
-            <stop offset="50%" stopColor="#DDF1E6" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#F5F9F6" stopOpacity="0" />
+          {/* 远层右中平缓山丘 */}
+          <linearGradient id="hillRightMid" x1="1500" y1="220" x2="1500" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#C4E3D3" stopOpacity="0.9" />
+            <stop offset="60%" stopColor="#E0F2E8" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.2" />
           </linearGradient>
 
-          {/* 中景主要波浪山峦（贯穿中部与中偏左） */}
-          <linearGradient id="hillCenter" x1="780" y1="160" x2="780" y2="460" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#CCEBD9" stopOpacity="0.8" />
-            <stop offset="45%" stopColor="#E5F5ED" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="#F5F9F6" stopOpacity="0" />
+          {/* 中间最高山峰（关键山形） */}
+          <linearGradient id="centerPeak" x1="1100" y1="200" x2="1100" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#B3DC8" stopOpacity="0.95" />
+            <stop offset="50%" stopColor="#D3ECE0" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.2" />
           </linearGradient>
 
-          {/* 左侧平缓起伏波浪 */}
-          <linearGradient id="hillLeft" x1="400" y1="210" x2="400" y2="460" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#D8EFE2" stopOpacity="0.75" />
-            <stop offset="55%" stopColor="#EEFAF3" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#F5F9F6" stopOpacity="0" />
+          {/* 中景贯穿起伏波浪山脊（从左到右连绵曲线） */}
+          <linearGradient id="ridgeWave" x1="700" y1="260" x2="700" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#BFE0CF" stopOpacity="0.95" />
+            <stop offset="40%" stopColor="#D9EFE3" stopOpacity="0.75" />
+            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.1" />
           </linearGradient>
 
-          {/* 前景最底部大弧度白色/极浅绿融合层 */}
-          <linearGradient id="hillForeground" x1="720" y1="260" x2="720" y2="460" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-            <stop offset="40%" stopColor="#F7FCF9" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#F5F8F5" stopOpacity="1" />
+          {/* 前景平滑白绿大弧线过渡层 */}
+          <linearGradient id="frontWave" x1="960" y1="320" x2="960" y2="650" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.98" />
+            <stop offset="35%" stopColor="#F8FCF9" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="1" />
           </linearGradient>
         </defs>
 
-        {/* 1. 最远景右侧高山丘 (Far Right Peak) */}
+        {/* 1. 最右侧高高隆起的大圆弧绿山（参考图最右） */}
         <path
-          d="M1120 460 C1140 220 1220 60 1370 70 C1430 75 1440 140 1440 160 V460 H1120 Z"
-          fill="url(#hillFarRight)"
+          d="M1520 650 C1550 300 1620 90 1780 100 C1880 108 1920 180 1920 220 V650 H1520 Z"
+          fill="url(#peakRight)"
         />
 
-        {/* 2. 远景右中连绵山丘 (Mid Right Hill) */}
+        {/* 2. 紧贴右侧山峰左侧的连绵小山丘 */}
         <path
-          d="M900 460 C960 270 1060 180 1260 180 C1380 180 1420 230 1440 250 V460 H900 Z"
-          fill="url(#hillMidRight)"
+          d="M1300 650 C1340 380 1440 240 1620 240 C1750 240 1860 310 1920 350 V650 H1300 Z"
+          fill="url(#hillRightMid)"
         />
 
-        {/* 3. 中景中间主峰与双弧线波浪 (Center Mountain Curve) */}
+        {/* 3. 中间隆起的主山包（参考图中部核心山峰） */}
         <path
-          d="M0 460 V330 C120 330 200 240 380 220 C540 200 660 300 750 210 C830 130 960 210 1060 260 C1160 310 1300 320 1440 330 V460 H0 Z"
-          fill="url(#hillCenter)"
+          d="M780 650 C860 420 980 230 1140 230 C1280 230 1380 340 1480 360 V650 H780 Z"
+          fill="url(#centerPeak)"
         />
 
-        {/* 4. 中近景左侧柔和波浪 (Left Smooth Wave) */}
+        {/* 4. 左侧优雅起伏延伸的山峦曲线（从左侧进入、凹陷、再升起连接中间） */}
         <path
-          d="M0 460 V260 C80 270 160 310 260 310 C380 310 470 220 590 230 C710 240 800 340 940 330 C1080 320 1280 370 1440 360 V460 H0 Z"
-          fill="url(#hillLeft)"
+          d="M0 650 V310 C80 370 200 400 320 400 C480 400 600 290 750 300 C880 308 1000 420 1180 410 C1360 400 1620 460 1920 450 V650 H0 Z"
+          fill="url(#ridgeWave)"
         />
 
-        {/* 5. 前景渐隐大曲线 (Foreground Transition Layer) */}
+        {/* 5. 前景自左向右缓缓升起的大白色起伏坡度（压住底部，形成干净的前景台） */}
         <path
-          d="M0 460 V390 C220 380 400 390 600 350 C760 315 900 270 1100 275 C1260 280 1360 330 1440 360 V460 H0 Z"
-          fill="url(#hillForeground)"
+          d="M0 650 V500 C180 520 380 530 580 490 C780 445 980 385 1250 365 C1500 345 1740 400 1920 440 V650 H0 Z"
+          fill="url(#frontWave)"
         />
       </svg>
     </div>
