@@ -31,43 +31,50 @@ const fragmentShader = `
 
   void main() {
     float aspect = uResolution.x / max(uResolution.y, 1.0);
-    float horizontalSpread = mix(0.76, 1.0, smoothstep(0.72, 1.8, aspect));
+    float horizontalSpread = mix(0.82, 1.0, smoothstep(0.72, 1.8, aspect));
     float x = (vUv.x - 0.5) * horizontalSpread + 0.5;
     float time = uTime * uMotion;
-    float pointerX = (uPointer.x - 0.5) * 0.026 * uMotion;
-    float pointerY = (uPointer.y - 0.5) * 0.012 * uMotion;
+    float pointerX = (uPointer.x - 0.5) * 0.018 * uMotion;
+    float pointerY = (uPointer.y - 0.5) * 0.008 * uMotion;
 
-    float distantEdge = 0.36
-      + sin((x + pointerX) * 5.7 + time * 0.12) * 0.055
-      + gaussian(x, 0.84 + pointerX, 0.20) * 0.29
-      + gaussian(x, 0.18, 0.30) * 0.055
+    float rearX = x + pointerX + sin(time * 0.09) * 0.008;
+    float rearEdge = 0.47
+      - gaussian(rearX, 0.11, 0.11) * 0.12
+      + gaussian(rearX, 0.29, 0.09) * 0.08
+      - gaussian(rearX, 0.43, 0.10) * 0.10
+      + gaussian(rearX, 0.58, 0.11) * 0.16
+      - gaussian(rearX, 0.70, 0.10) * 0.07
+      + gaussian(rearX, 0.83, 0.20) * 0.12
+      + gaussian(rearX, 1.00, 0.10) * 0.25
       + pointerY;
 
-    float middleEdge = 0.31
-      + sin(x * 7.2 - 1.15 - time * 0.10) * 0.065
-      + gaussian(x, 0.57 - pointerX, 0.18) * 0.22
-      + gaussian(x, 0.97, 0.28) * 0.075
-      - pointerY * 0.65;
+    float frontX = x + pointerX * 0.35 - sin(time * 0.055) * 0.006;
+    float frontEdge = 0.18
+      - gaussian(frontX, 0.20, 0.25) * 0.04
+      + gaussian(frontX, 0.76, 0.35) * 0.26
+      - gaussian(frontX, 1.03, 0.20) * 0.04
+      - pointerY * 0.35;
 
-    float ridgeEdge = 0.265
-      + sin(x * 6.1 + 0.75 + time * 0.085) * 0.048
-      + gaussian(x, 0.28 + pointerX * 0.5, 0.19) * 0.13
-      + gaussian(x, 0.72, 0.30) * 0.045;
+    float edgeSoftness = 1.0 / max(uResolution.y, 1.0);
+    float rearMask = fillBelow(vUv.y, rearEdge, edgeSoftness);
+    float frontMask = fillBelow(vUv.y, frontEdge, edgeSoftness);
 
-    float foregroundEdge = 0.18
-      + sin(x * 4.8 - 0.45 - time * 0.055) * 0.036
-      + gaussian(x, 0.70, 0.40) * 0.055;
+    vec3 backgroundColor = vec3(0.984, 0.988, 0.985);
+    float rearDepth = smoothstep(0.0, max(rearEdge, 0.001), vUv.y);
+    vec3 rearColor = mix(
+      vec3(0.885, 0.945, 0.912),
+      vec3(0.755, 0.875, 0.810),
+      rearDepth
+    );
+    float frontDepth = smoothstep(0.0, max(frontEdge, 0.001), vUv.y);
+    vec3 frontColor = mix(
+      vec3(0.940, 0.966, 0.951),
+      vec3(0.978, 0.985, 0.980),
+      frontDepth
+    );
 
-    float distantMask = fillBelow(vUv.y, distantEdge, 0.035);
-    float middleMask = fillBelow(vUv.y, middleEdge, 0.032);
-    float ridgeMask = fillBelow(vUv.y, ridgeEdge, 0.028);
-    float foregroundMask = fillBelow(vUv.y, foregroundEdge, 0.024);
-
-    vec3 color = vec3(0.975, 0.983, 0.977);
-    color = mix(color, vec3(0.815, 0.905, 0.855), distantMask * 0.70);
-    color = mix(color, vec3(0.765, 0.885, 0.815), middleMask * 0.68);
-    color = mix(color, vec3(0.855, 0.930, 0.890), ridgeMask * 0.82);
-    color = mix(color, vec3(0.976, 0.989, 0.981), foregroundMask * 0.96);
+    vec3 color = mix(backgroundColor, rearColor, rearMask);
+    color = mix(color, frontColor, frontMask);
 
     gl_FragColor = vec4(color, 1.0);
     #include <colorspace_fragment>
