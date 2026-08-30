@@ -47,6 +47,11 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.2.9 (2026-08-30)
+- 使用新的 WhereNote Logo 替换关于页品牌标识与 Android 应用图标。
+- “记一笔”和“东西在哪”顶部移除 Logo 图标，仅保留文字标题。
+- versionCode 11 / versionName 0.2.9。
+
 ### v0.2.8 (2026-08-30)
 - 移除记一笔页顶部冗余的“记录新物品”提示模块。
 - 收紧首页列表、顶栏状态区域、编辑页与关于页的模块高度和左右边距。

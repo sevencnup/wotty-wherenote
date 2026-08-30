@@ -3,6 +3,7 @@ package com.example.wherenote.ui
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,15 +23,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -48,7 +45,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -98,28 +97,12 @@ fun AboutContent(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // 品牌 Logo 徽章
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(
-                            Brush.linearGradient(
-                                colors = listOf(
-                                    MaterialTheme.colorScheme.primary,
-                                    MaterialTheme.colorScheme.secondary
-                                )
-                            )
-                        )
-                        .shadow(elevation = 6.dp, shape = RoundedCornerShape(22.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Eco,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(36.dp)
-                    )
-                }
+                Image(
+                    painter = painterResource(com.example.wherenote.R.drawable.logo),
+                    contentDescription = "WhereNote Logo",
+                    modifier = Modifier.size(64.dp),
+                    contentScale = ContentScale.Fit
+                )
 
                 Spacer(Modifier.height(10.dp))
 
@@ -137,7 +120,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
-                        text = "v0.2.8 · 精致森系版",
+                        text = "v0.2.9 · 精致森系版",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -192,11 +175,6 @@ fun AboutContent(modifier: Modifier = Modifier) {
                     title = "随手拍照归档",
                     desc = "拍照记录实物与存放细节，自动智能压缩防膨胀"
                 )
-                FeatureRow(
-                    icon = Icons.Default.Storage,
-                    title = "本地离线存储",
-                    desc = "数据全部存放在手机本地数据库，安全私密无依赖"
-                )
             }
         }
 
@@ -234,7 +212,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 if (updateUrl.isBlank()) {
-                    Toast.makeText(context, "当前已是最新版本 (v0.2.8)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "当前已是最新版本 (v0.2.9)", Toast.LENGTH_SHORT).show()
                 } else {
                     runCatching {
                         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))

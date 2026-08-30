@@ -9,6 +9,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +30,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AddCircleOutline
@@ -54,9 +54,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.wherenote.data.Note
@@ -116,7 +117,8 @@ class MainActivity : ComponentActivity() {
                         WhereNoteTopBar(
                             title = titleText,
                             subtitle = subTitleText,
-                            badgeCount = if (tab == Tab.WHERE) notes.size else null
+                            badgeCount = if (tab == Tab.WHERE) notes.size else null,
+                            showLogo = tab == Tab.ABOUT
                         )
                     },
                     bottomBar = {
@@ -185,7 +187,8 @@ class MainActivity : ComponentActivity() {
 private fun WhereNoteTopBar(
     title: String,
     subtitle: String,
-    badgeCount: Int? = null
+    badgeCount: Int? = null,
+    showLogo: Boolean = false
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -215,26 +218,16 @@ private fun WhereNoteTopBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(28.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(
-                                        MaterialTheme.colorScheme.primary,
-                                        MaterialTheme.colorScheme.secondary
-                                    )
-                                )
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Eco,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(17.dp)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    if (showLogo) {
+                        Image(
+                            painter = painterResource(com.example.wherenote.R.drawable.logo),
+                            contentDescription = "WhereNote Logo",
+                            modifier = Modifier.size(28.dp),
+                            contentScale = ContentScale.Fit
                         )
                     }
                     Text(
@@ -242,7 +235,7 @@ private fun WhereNoteTopBar(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(start = if (showLogo) 8.dp else 0.dp)
                     )
                 }
 

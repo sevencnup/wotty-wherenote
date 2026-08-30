@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <!-- location pin -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,30 C46,30 40,36 40,44 C40,54 54,72 54,72 C54,72 68,54 68,44 C68,36 62,30 54,30 Z M54,48 C51.8,48 50,46.2 50,44 C50,41.8 51.8,40 54,40 C56.2,40 58,41.8 58,44 C58,46.2 56.2,48 54,48 Z" />
-</vector>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="fill"
+    android:src="@drawable/logo" />
