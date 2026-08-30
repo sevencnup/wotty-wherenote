@@ -14,12 +14,12 @@ import {
 } from 'lucide-react';
 import {
   BrandLogo,
-  Hero3DIllustration,
   FeatureIconLocation,
   FeatureIconCamera,
   FeatureIconNote
 } from './components/Icons';
 import { PhoneMockup } from './components/PhoneMockup';
+import { HeroImageDecoration } from './components/HeroImageDecoration';
 import { MountainWavesBackground } from './components/MountainWavesBackground';
 
 export default function App() {
@@ -150,9 +150,9 @@ export default function App() {
 
         {/* 1. Hero 首屏展示区 */}
         <section id="home" className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 sm:pt-14 pb-16 lg:pb-24 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* 左侧文案与下载按钮 */}
-            <div className="lg:col-span-7 text-left space-y-6">
+            <div className="relative z-10 lg:col-span-7 text-left space-y-6">
               <div className="space-y-3">
                 <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-extrabold text-[#1a4435] leading-tight tracking-tight">
                   随手记一笔
@@ -201,9 +201,9 @@ export default function App() {
               </div>
             </div>
 
-            {/* 右侧 3D 收纳箱插画 */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <Hero3DIllustration />
+            {/* 右上角大型收纳箱装饰图 */}
+            <div className="relative z-0 flex min-h-[360px] items-center justify-center lg:col-span-5 lg:min-h-[440px]">
+              <HeroImageDecoration />
             </div>
           </div>
         </section>

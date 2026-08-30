@@ -2,6 +2,7 @@
 
 ## v0.0.2 (2026-08-30)
 - 使用 Three.js 实现浅绿双层动态波浪背景，并补充低动态与 WebGL 降级支持
+- 使用透明 3D 收纳箱素材完善 Hero 右上角大型装饰
 
 ## v0.0.1 (2026-08-30)
 - 基于 React 18 + TypeScript + Vite + Tailwind CSS 复刻设计稿《随记 WhereNote》落地页
