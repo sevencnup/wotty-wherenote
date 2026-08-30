@@ -3,7 +3,7 @@ const heroDecorationUrl = new URL('../../1.png', import.meta.url).href;
 export function HeroImageDecoration() {
   return (
     <div
-      className="pointer-events-none relative mx-auto w-full max-w-[390px] select-none sm:max-w-[470px] lg:absolute lg:-right-20 lg:-top-5 lg:w-[600px] lg:max-w-none xl:-right-24 xl:-top-7 xl:w-[630px]"
+      className="pointer-events-none relative mx-auto w-full max-w-[390px] select-none sm:max-w-[470px] lg:absolute lg:-right-16 lg:top-3 lg:w-[520px] lg:max-w-none xl:-right-20 xl:top-1 xl:w-[540px]"
       aria-hidden="true"
     >
       <img
