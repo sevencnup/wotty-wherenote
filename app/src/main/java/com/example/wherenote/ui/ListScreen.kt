@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -64,7 +65,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.wherenote.data.Note
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -93,13 +93,14 @@ fun ListContent(
             color = Color.Transparent,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .padding(horizontal = 10.dp, vertical = 4.dp)
         ) {
             OutlinedTextField(
                 value = query,
                 onValueChange = vm::setQuery,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .heightIn(min = 48.dp, max = 52.dp)
                     .shadow(
                         elevation = 2.dp,
                         shape = RoundedCornerShape(18.dp),
@@ -149,7 +150,7 @@ fun ListContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp),
+                    .padding(horizontal = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -158,7 +159,7 @@ fun ListContent(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(96.dp)
+                            .size(80.dp)
                             .clip(CircleShape)
                             .background(
                                 Brush.radialGradient(
@@ -178,7 +179,7 @@ fun ListContent(
                         )
                     }
 
-                    Spacer(Modifier.height(18.dp))
+                    Spacer(Modifier.height(12.dp))
 
                     Text(
                         text = if (query.isBlank()) "空空如也，暂无随记" else "没有找到相关物品",
@@ -187,7 +188,7 @@ fun ListContent(
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    Spacer(Modifier.height(6.dp))
+                    Spacer(Modifier.height(4.dp))
 
                     Text(
                         text = if (query.isBlank())
@@ -218,8 +219,8 @@ fun ListContent(
             }
         } else {
             LazyColumn(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                contentPadding = PaddingValues(start = 10.dp, end = 10.dp, top = 2.dp, bottom = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(notes, key = { it.id }) { note ->
                     NoteCard(note = note, onClick = { detail = note })
@@ -285,16 +286,16 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
         )
     ) {
         Row(
-            modifier = Modifier.padding(14.dp),
+            modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (!note.photoPath.isNullOrBlank()) {
                 PhotoThumb(
                     path = note.photoPath,
-                    sizeDp = 68.dp,
-                    shape = RoundedCornerShape(14.dp)
+                    sizeDp = 56.dp,
+                    shape = RoundedCornerShape(12.dp)
                 )
-                Spacer(Modifier.width(14.dp))
+                Spacer(Modifier.width(10.dp))
             }
 
             Column(modifier = Modifier.weight(1f)) {
@@ -314,7 +315,7 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
                     )
                 }
 
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(4.dp))
 
                 // 位置标签胶囊
                 Surface(
@@ -323,12 +324,12 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.LocationOn,
                             contentDescription = null,
-                            modifier = Modifier.size(13.dp),
+                            modifier = Modifier.size(12.dp),
                             tint = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(Modifier.width(4.dp))
@@ -344,7 +345,7 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
                 }
 
                 if (note.remark.isNotBlank()) {
-                    Spacer(Modifier.height(6.dp))
+                    Spacer(Modifier.height(4.dp))
                     Text(
                         text = note.remark,
                         style = MaterialTheme.typography.bodySmall,
@@ -354,7 +355,7 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
                     )
                 }
 
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(4.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {

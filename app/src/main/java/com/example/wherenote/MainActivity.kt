@@ -59,7 +59,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.wherenote.data.Note
 import com.example.wherenote.ui.AboutContent
 import com.example.wherenote.ui.EditContent
@@ -194,22 +193,22 @@ private fun WhereNoteTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(
-                elevation = 3.dp,
-                shape = RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp),
+                elevation = 2.dp,
+                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
                 spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
             )
-            .clip(RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp))
+            .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
-                shape = RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp)
+                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
             )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .windowInsetsPadding(WindowInsets.statusBars)
-                .padding(horizontal = 20.dp, vertical = 14.dp)
+                .padding(horizontal = 12.dp, vertical = 3.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -219,8 +218,8 @@ private fun WhereNoteTopBar(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
-                            .size(34.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            .size(28.dp)
+                            .clip(RoundedCornerShape(8.dp))
                             .background(
                                 Brush.linearGradient(
                                     colors = listOf(
@@ -235,15 +234,15 @@ private fun WhereNoteTopBar(
                             imageVector = Icons.Filled.Eco,
                             contentDescription = null,
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(17.dp)
                         )
                     }
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(start = 10.dp)
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
 
@@ -257,13 +256,13 @@ private fun WhereNoteTopBar(
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                         )
                     }
                 }
             }
 
-            Spacer(Modifier.height(2.dp))
+            Spacer(Modifier.height(1.dp))
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
@@ -284,20 +283,20 @@ private fun WhereNoteBottomBar(
             .fillMaxWidth()
             .shadow(
                 elevation = 8.dp,
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp),
                 spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
             )
-            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+            .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.7f),
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp)
             )
     ) {
         NavigationBar(
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.navigationBars)
-                .height(68.dp),
+                .height(60.dp),
             containerColor = Color.Transparent,
             tonalElevation = 0.dp,
             windowInsets = WindowInsets(0, 0, 0, 0)

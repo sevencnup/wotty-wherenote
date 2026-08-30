@@ -64,8 +64,8 @@ fun AboutContent(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // App 品牌卡片
@@ -94,13 +94,13 @@ fun AboutContent(modifier: Modifier = Modifier) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 28.dp, horizontal = 20.dp),
+                    .padding(vertical = 20.dp, horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // 品牌 Logo 徽章
                 Box(
                     modifier = Modifier
-                        .size(76.dp)
+                        .size(64.dp)
                         .clip(RoundedCornerShape(22.dp))
                         .background(
                             Brush.linearGradient(
@@ -117,11 +117,11 @@ fun AboutContent(modifier: Modifier = Modifier) {
                         imageVector = Icons.Default.Eco,
                         contentDescription = null,
                         tint = Color.White,
-                        modifier = Modifier.size(44.dp)
+                        modifier = Modifier.size(36.dp)
                     )
                 }
 
-                Spacer(Modifier.height(14.dp))
+                Spacer(Modifier.height(10.dp))
 
                 Text(
                     text = "随记 WhereNote",
@@ -137,15 +137,15 @@ fun AboutContent(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
-                        text = "v0.2.7 · 精致森系版",
+                        text = "v0.2.8 · 精致森系版",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                     )
                 }
 
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(8.dp))
 
                 Text(
                     text = "随手记一笔，东西放在哪里一目了然。\n告别翻箱倒柜，找东西从此轻轻松松。",
@@ -172,8 +172,8 @@ fun AboutContent(modifier: Modifier = Modifier) {
             )
         ) {
             Column(
-                modifier = Modifier.padding(18.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier.padding(14.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
                     text = "主要特性",
@@ -234,7 +234,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 if (updateUrl.isBlank()) {
-                    Toast.makeText(context, "当前已是最新版本 (v0.2.7)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "当前已是最新版本 (v0.2.8)", Toast.LENGTH_SHORT).show()
                 } else {
                     runCatching {
                         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
@@ -243,7 +243,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(48.dp)
                 .shadow(
                     elevation = 3.dp,
                     shape = RoundedCornerShape(16.dp),
@@ -262,7 +262,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 4.dp)
         ) {
             Icon(
                 imageVector = Icons.Default.Favorite,
@@ -338,7 +338,7 @@ private fun ActionListItem(
             .clickable(onClick = onClick)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
