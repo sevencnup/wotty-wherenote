@@ -20,6 +20,7 @@ import {
   FeatureIconNote
 } from './components/Icons';
 import { PhoneMockup } from './components/PhoneMockup';
+import { MountainWavesBackground } from './components/MountainWavesBackground';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'home' | 'features' | 'download' | 'about'>('home');
@@ -142,9 +143,14 @@ export default function App() {
       </header>
 
       {/* 主体区域 */}
-      <main className="flex-1">
+      <main className="flex-1 relative overflow-hidden">
+        {/* 背景起伏波浪装饰 */}
+        <MountainWavesBackground className="top-12 opacity-85" />
+        <MountainWavesBackground className="top-[580px] opacity-40 rotate-180 scale-x-[-1]" />
+        <MountainWavesBackground className="bottom-0 opacity-70" />
+
         {/* 1. Hero 首屏展示区 */}
-        <section id="home" className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 sm:pt-14 pb-16 lg:pb-24">
+        <section id="home" className="max-w-6xl mx-auto px-6 sm:px-8 pt-10 sm:pt-14 pb-16 lg:pb-24 relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* 左侧文案与下载按钮 */}
             <div className="lg:col-span-7 text-left space-y-6">
