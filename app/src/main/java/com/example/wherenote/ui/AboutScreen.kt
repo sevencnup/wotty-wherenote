@@ -137,7 +137,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
-                        text = "v0.2.6 · 精致森系版",
+                        text = "v0.2.7 · 精致森系版",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -234,7 +234,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
         Button(
             onClick = {
                 if (updateUrl.isBlank()) {
-                    Toast.makeText(context, "当前已是最新版本 (v0.2.6)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "当前已是最新版本 (v0.2.7)", Toast.LENGTH_SHORT).show()
                 } else {
                     runCatching {
                         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))

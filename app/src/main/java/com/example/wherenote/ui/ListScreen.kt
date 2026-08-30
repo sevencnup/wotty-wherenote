@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -82,6 +81,7 @@ fun ListContent(
     val query by vm.query.collectAsState()
     val notes by vm.notes.collectAsState()
     var detail by remember { mutableStateOf<Note?>(null) }
+    var previewPath by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = modifier
@@ -245,9 +245,17 @@ fun ListContent(
                 onDelete = {
                     vm.delete(note)
                     detail = null
-                }
+                },
+                onPhotoClick = { previewPath = it }
             )
         }
+    }
+
+    previewPath?.let { path ->
+        PhotoPreviewDialog(
+            path = path,
+            onDismiss = { previewPath = null }
+        )
     }
 }
 
@@ -372,7 +380,8 @@ private fun NoteCard(note: Note, onClick: () -> Unit) {
 private fun NoteDetailSheet(
     note: Note,
     onEdit: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onPhotoClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -490,7 +499,8 @@ private fun NoteDetailSheet(
                     sizeDp = 220.dp,
                     shape = RoundedCornerShape(18.dp),
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    onClick = { onPhotoClick(note.photoPath) }
                 )
             }
         }
