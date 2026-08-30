@@ -1,85 +1,284 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
-/**
- * 1:1 还原参考图的高清有机山峦与起伏波浪背景
- */
-export const MountainWavesBackground: React.FC<{ className?: string }> = ({ className = '' }) => {
+const vertexShader = `
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  precision highp float;
+
+  uniform float uTime;
+  uniform vec2 uResolution;
+  uniform vec2 uPointer;
+  uniform float uMotion;
+
+  varying vec2 vUv;
+
+  float gaussian(float x, float center, float width) {
+    float distanceFromCenter = (x - center) / width;
+    return exp(-distanceFromCenter * distanceFromCenter);
+  }
+
+  float fillBelow(float y, float edge, float softness) {
+    return 1.0 - smoothstep(edge - softness, edge + softness, y);
+  }
+
+  void main() {
+    float aspect = uResolution.x / max(uResolution.y, 1.0);
+    float horizontalSpread = mix(0.76, 1.0, smoothstep(0.72, 1.8, aspect));
+    float x = (vUv.x - 0.5) * horizontalSpread + 0.5;
+    float time = uTime * uMotion;
+    float pointerX = (uPointer.x - 0.5) * 0.026 * uMotion;
+    float pointerY = (uPointer.y - 0.5) * 0.012 * uMotion;
+
+    float distantEdge = 0.36
+      + sin((x + pointerX) * 5.7 + time * 0.12) * 0.055
+      + gaussian(x, 0.84 + pointerX, 0.20) * 0.29
+      + gaussian(x, 0.18, 0.30) * 0.055
+      + pointerY;
+
+    float middleEdge = 0.31
+      + sin(x * 7.2 - 1.15 - time * 0.10) * 0.065
+      + gaussian(x, 0.57 - pointerX, 0.18) * 0.22
+      + gaussian(x, 0.97, 0.28) * 0.075
+      - pointerY * 0.65;
+
+    float ridgeEdge = 0.265
+      + sin(x * 6.1 + 0.75 + time * 0.085) * 0.048
+      + gaussian(x, 0.28 + pointerX * 0.5, 0.19) * 0.13
+      + gaussian(x, 0.72, 0.30) * 0.045;
+
+    float foregroundEdge = 0.18
+      + sin(x * 4.8 - 0.45 - time * 0.055) * 0.036
+      + gaussian(x, 0.70, 0.40) * 0.055;
+
+    float distantMask = fillBelow(vUv.y, distantEdge, 0.035);
+    float middleMask = fillBelow(vUv.y, middleEdge, 0.032);
+    float ridgeMask = fillBelow(vUv.y, ridgeEdge, 0.028);
+    float foregroundMask = fillBelow(vUv.y, foregroundEdge, 0.024);
+
+    vec3 color = vec3(0.975, 0.983, 0.977);
+    color = mix(color, vec3(0.815, 0.905, 0.855), distantMask * 0.70);
+    color = mix(color, vec3(0.765, 0.885, 0.815), middleMask * 0.68);
+    color = mix(color, vec3(0.855, 0.930, 0.890), ridgeMask * 0.82);
+    color = mix(color, vec3(0.976, 0.989, 0.981), foregroundMask * 0.96);
+
+    gl_FragColor = vec4(color, 1.0);
+    #include <colorspace_fragment>
+  }
+`;
+
+export function MountainWavesBackground({ className = '' }: { className?: string }) {
+  const mountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+
+    if (!mount) {
+      return;
+    }
+
+    let renderer: THREE.WebGLRenderer | null = null;
+    let scene: THREE.Scene | null = null;
+    let camera: THREE.OrthographicCamera | null = null;
+    let geometry: THREE.PlaneGeometry | null = null;
+    let material: THREE.ShaderMaterial | null = null;
+    let resizeObserver: ResizeObserver | null = null;
+    let animationFrame = 0;
+    let contextLost = false;
+    let disposed = false;
+    let pageVisible = !document.hidden;
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let reducedMotion = motionQuery.matches;
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uResolution: { value: new THREE.Vector2(1, 1) },
+      uPointer: { value: new THREE.Vector2(0.5, 0.5) },
+      uMotion: { value: reducedMotion ? 0 : 1 },
+    };
+
+    const stopAnimation = () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+    };
+
+    const renderFrame = (time: number) => {
+      if (!renderer || !scene || !camera || disposed || contextLost) {
+        return;
+      }
+
+      uniforms.uTime.value = time * 0.001;
+      renderer.render(scene, camera);
+      mount.classList.add('mountain-waves-background--ready');
+    };
+
+    const animate = (time: number) => {
+      renderFrame(time);
+
+      if (!disposed && !contextLost && pageVisible && !reducedMotion) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    const startAnimation = () => {
+      stopAnimation();
+
+      if (disposed || contextLost) {
+        return;
+      }
+
+      if (pageVisible && !reducedMotion) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        renderFrame(performance.now());
+      }
+    };
+
+    const handleResize = () => {
+      if (!renderer) {
+        return;
+      }
+
+      const { width, height } = mount.getBoundingClientRect();
+      const renderWidth = Math.max(1, Math.round(width));
+      const renderHeight = Math.max(1, Math.round(height));
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+
+      renderer.setPixelRatio(pixelRatio);
+      renderer.setSize(renderWidth, renderHeight, false);
+      uniforms.uResolution.value.set(renderWidth * pixelRatio, renderHeight * pixelRatio);
+      renderFrame(performance.now());
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType && event.pointerType !== 'mouse') {
+        return;
+      }
+
+      uniforms.uPointer.value.set(
+        event.clientX / Math.max(window.innerWidth, 1),
+        1 - event.clientY / Math.max(window.innerHeight, 1),
+      );
+    };
+
+    const handleMotionPreference = (event: MediaQueryListEvent) => {
+      reducedMotion = event.matches;
+      uniforms.uMotion.value = reducedMotion ? 0 : 1;
+      startAnimation();
+    };
+
+    const handleVisibilityChange = () => {
+      pageVisible = !document.hidden;
+      startAnimation();
+    };
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      contextLost = true;
+      stopAnimation();
+      mount.classList.remove('mountain-waves-background--ready');
+    };
+
+    const handleContextRestored = () => {
+      contextLost = false;
+      handleResize();
+      startAnimation();
+    };
+
+    try {
+      const canvas = document.createElement('canvas');
+      const contextAttributes: WebGLContextAttributes = {
+        alpha: true,
+        antialias: false,
+        powerPreference: 'low-power',
+        preserveDrawingBuffer: false,
+      };
+      const context = canvas.getContext('webgl2', contextAttributes)
+        ?? canvas.getContext('webgl', contextAttributes);
+
+      if (!context) {
+        return;
+      }
+
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+      camera.position.z = 1;
+
+      geometry = new THREE.PlaneGeometry(2, 2);
+      material = new THREE.ShaderMaterial({
+        uniforms,
+        vertexShader,
+        fragmentShader,
+        depthTest: false,
+        depthWrite: false,
+      });
+
+      scene.add(new THREE.Mesh(geometry, material));
+
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        context,
+        alpha: true,
+        antialias: false,
+        powerPreference: 'low-power',
+      });
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.domElement.className = 'mountain-waves-canvas';
+      renderer.domElement.setAttribute('aria-hidden', 'true');
+      renderer.domElement.addEventListener('webglcontextlost', handleContextLost);
+      renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored);
+      mount.appendChild(renderer.domElement);
+
+      resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver.observe(mount);
+      window.addEventListener('pointermove', handlePointerMove, { passive: true });
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      motionQuery.addEventListener('change', handleMotionPreference);
+
+      handleResize();
+      startAnimation();
+    } catch {
+      mount.classList.remove('mountain-waves-background--ready');
+    }
+
+    return () => {
+      disposed = true;
+      stopAnimation();
+      resizeObserver?.disconnect();
+      window.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      motionQuery.removeEventListener('change', handleMotionPreference);
+
+      if (renderer) {
+        renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
+        renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+        renderer.dispose();
+        renderer.domElement.remove();
+      }
+
+      geometry?.dispose();
+      material?.dispose();
+      mount.classList.remove('mountain-waves-background--ready');
+    };
+  }, []);
+
   return (
-    <div className={`pointer-events-none absolute inset-x-0 top-0 w-full overflow-hidden select-none -z-10 ${className}`}>
-      <svg
-        className="w-full h-[520px] sm:h-[620px] lg:h-[720px] object-cover object-top"
-        viewBox="0 0 1920 650"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          {/* 最远层右侧大山峰渐变 */}
-          <linearGradient id="peakRight" x1="1720" y1="80" x2="1720" y2="650" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#BCDCCB" stopOpacity="0.85" />
-            <stop offset="70%" stopColor="#D8EDE1" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.1" />
-          </linearGradient>
-
-          {/* 远层右中平缓山丘 */}
-          <linearGradient id="hillRightMid" x1="1500" y1="220" x2="1500" y2="650" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#C4E3D3" stopOpacity="0.9" />
-            <stop offset="60%" stopColor="#E0F2E8" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.2" />
-          </linearGradient>
-
-          {/* 中间最高山峰（关键山形） */}
-          <linearGradient id="centerPeak" x1="1100" y1="200" x2="1100" y2="650" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#B3DC8" stopOpacity="0.95" />
-            <stop offset="50%" stopColor="#D3ECE0" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.2" />
-          </linearGradient>
-
-          {/* 中景贯穿起伏波浪山脊（从左到右连绵曲线） */}
-          <linearGradient id="ridgeWave" x1="700" y1="260" x2="700" y2="650" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#BFE0CF" stopOpacity="0.95" />
-            <stop offset="40%" stopColor="#D9EFE3" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="0.1" />
-          </linearGradient>
-
-          {/* 前景平滑白绿大弧线过渡层 */}
-          <linearGradient id="frontWave" x1="960" y1="320" x2="960" y2="650" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.98" />
-            <stop offset="35%" stopColor="#F8FCF9" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#F4FAF6" stopOpacity="1" />
-          </linearGradient>
-        </defs>
-
-        {/* 1. 最右侧高高隆起的大圆弧绿山（参考图最右） */}
-        <path
-          d="M1520 650 C1550 300 1620 90 1780 100 C1880 108 1920 180 1920 220 V650 H1520 Z"
-          fill="url(#peakRight)"
-        />
-
-        {/* 2. 紧贴右侧山峰左侧的连绵小山丘 */}
-        <path
-          d="M1300 650 C1340 380 1440 240 1620 240 C1750 240 1860 310 1920 350 V650 H1300 Z"
-          fill="url(#hillRightMid)"
-        />
-
-        {/* 3. 中间隆起的主山包（参考图中部核心山峰） */}
-        <path
-          d="M780 650 C860 420 980 230 1140 230 C1280 230 1380 340 1480 360 V650 H780 Z"
-          fill="url(#centerPeak)"
-        />
-
-        {/* 4. 左侧优雅起伏延伸的山峦曲线（从左侧进入、凹陷、再升起连接中间） */}
-        <path
-          d="M0 650 V310 C80 370 200 400 320 400 C480 400 600 290 750 300 C880 308 1000 420 1180 410 C1360 400 1620 460 1920 450 V650 H0 Z"
-          fill="url(#ridgeWave)"
-        />
-
-        {/* 5. 前景自左向右缓缓升起的大白色起伏坡度（压住底部，形成干净的前景台） */}
-        <path
-          d="M0 650 V500 C180 520 380 530 580 490 C780 445 980 385 1250 365 C1500 345 1740 400 1920 440 V650 H0 Z"
-          fill="url(#frontWave)"
-        />
-      </svg>
+    <div
+      ref={mountRef}
+      className={`mountain-waves-background pointer-events-none absolute inset-x-0 top-0 z-0 h-[520px] w-full select-none overflow-hidden sm:h-[620px] lg:h-[720px] ${className}`}
+      aria-hidden="true"
+    >
+      <div className="mountain-waves-fallback" />
     </div>
   );
-};
+}

@@ -19,3 +19,46 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+
+.mountain-waves-background {
+  background: #f5f8f5;
+}
+
+.mountain-waves-fallback,
+.mountain-waves-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mountain-waves-fallback {
+  background:
+    radial-gradient(78% 70% at 87% 78%, rgba(184, 222, 201, 0.72) 0 31%, transparent 62%),
+    radial-gradient(64% 55% at 56% 82%, rgba(199, 229, 212, 0.76) 0 35%, transparent 67%),
+    radial-gradient(76% 50% at 16% 88%, rgba(216, 237, 225, 0.88) 0 42%, transparent 72%),
+    linear-gradient(180deg, #f9fbf9 0%, #f4f8f5 57%, #edf6f0 100%);
+  opacity: 1;
+  transition: opacity 240ms ease;
+}
+
+.mountain-waves-canvas {
+  display: block;
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.mountain-waves-background--ready .mountain-waves-canvas {
+  opacity: 1;
+}
+
+.mountain-waves-background--ready .mountain-waves-fallback {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mountain-waves-fallback,
+  .mountain-waves-canvas {
+    transition: none;
+  }
+}
