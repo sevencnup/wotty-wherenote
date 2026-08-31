@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import {
-  Apple,
   Monitor,
   CheckCircle2,
   Search,
   Camera,
-  ShieldCheck,
   Download,
   Menu,
   X,
@@ -13,12 +11,13 @@ import {
   Share2
 } from 'lucide-react';
 import {
-  BrandLogo,
   FeatureIconLocation,
   FeatureIconCamera,
   FeatureIconNote
-} from './components/Icons';
-import { PhoneMockup } from './components/PhoneMockup';
+} from './components/FeatureIcons';
+import { PlatformAppleIcon, PlatformAndroidIcon } from './components/PlatformIcons';
+import { AndroidPhoneMockup } from './components/AndroidPhoneMockup';
+import { BrandLogo } from './components/Icons';
 import { HeroImageDecoration } from './components/HeroImageDecoration';
 import { MountainWavesBackground } from './components/MountainWavesBackground';
 
@@ -171,7 +170,7 @@ export default function App() {
               <div className="pt-3 flex flex-wrap gap-3.5">
                 {/* App Store 下载 */}
                 <button className="flex items-center space-x-3 bg-[#1e5843] hover:bg-[#164735] text-white px-5 py-3 rounded-xl font-medium shadow-md shadow-emerald-950/15 hover:shadow-lg transition-all active:scale-[0.98]">
-                  <Apple className="w-6 h-6 fill-current" />
+                  <PlatformAppleIcon />
                   <div className="text-left leading-none">
                     <span className="text-[11px] block font-light opacity-90">App Store</span>
                     <span className="text-xs font-semibold">下载</span>
@@ -180,10 +179,7 @@ export default function App() {
 
                 {/* Android 下载 */}
                 <button className="flex items-center space-x-3 bg-[#1e5843] hover:bg-[#164735] text-white px-5 py-3 rounded-xl font-medium shadow-md shadow-emerald-950/15 hover:shadow-lg transition-all active:scale-[0.98]">
-                  {/* 安卓机器小人图标 */}
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v6c0 .83.67 1.5 1.5 1.5S5 16.33 5 15.5v-6C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-6c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.61 2.23 12.36 2 11 2s-2.61.23-3.64.63L5.88 1.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3C4.59 4.39 3.5 6.07 3.5 8h15c0-1.93-1.09-3.61-2.97-4.84zM8 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
-                  </svg>
+                  <PlatformAndroidIcon />
                   <div className="text-left leading-none">
                     <span className="text-[11px] block font-light opacity-90">Android</span>
                     <span className="text-xs font-semibold">下载</span>
@@ -275,10 +271,6 @@ export default function App() {
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 stroke-[2.2]" />
-                  <span className="text-sm font-medium text-slate-700">数据安全，本地优先存储</span>
-                </div>
-                <div className="flex items-center space-x-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 stroke-[2.2]" />
                   <span className="text-sm font-medium text-slate-700">简洁界面，清爽无广告</span>
                 </div>
               </div>
@@ -292,12 +284,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* 中间手机模型 */}
+            {/* 中间 Android 手机模型 */}
             <div className="lg:col-span-4 flex justify-center">
-              <PhoneMockup />
+              <AndroidPhoneMockup />
             </div>
 
-            {/* 右侧 3 大特色胶囊卡片 */}
+            {/* 右侧 2 大特色胶囊卡片 */}
             <div className="lg:col-span-4 space-y-4">
               {/* 特色 1：秒级模糊搜索 */}
               <div className="bg-white/95 rounded-2xl p-4.5 border border-emerald-100 shadow-sm flex items-center space-x-4 hover:shadow-md transition">
@@ -318,17 +310,6 @@ export default function App() {
                 <div className="text-left">
                   <h4 className="text-sm font-bold text-slate-900">拍照归档</h4>
                   <p className="text-xs text-slate-500 mt-0.5">自动压缩存储，节省空间</p>
-                </div>
-              </div>
-
-              {/* 特色 3：本地优先存储 */}
-              <div className="bg-white/95 rounded-2xl p-4.5 border border-emerald-100 shadow-sm flex items-center space-x-4 hover:shadow-md transition">
-                <div className="w-12 h-12 rounded-xl bg-[#eaf4ee] flex items-center justify-center shrink-0 text-emerald-800">
-                  <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
-                </div>
-                <div className="text-left">
-                  <h4 className="text-sm font-bold text-slate-900">本地优先存储</h4>
-                  <p className="text-xs text-slate-500 mt-0.5">数据安全，你的隐私你做主</p>
                 </div>
               </div>
             </div>

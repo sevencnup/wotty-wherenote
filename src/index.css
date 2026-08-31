@@ -20,6 +20,17 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 
+.android-phone-screen {
+  position: absolute;
+  left: 18.2%;
+  top: 4.8%;
+  z-index: 0;
+  width: 63.7%;
+  height: 91%;
+  border-radius: 12%;
+  object-fit: cover;
+}
+
 .mountain-waves-background {
   background: #f5f8f5;
 }

@@ -1,4 +1,4 @@
-const heroDecorationUrl = new URL('../../1.png', import.meta.url).href;
+const heroDecorationUrl = new URL('../../logo.png', import.meta.url).href;
 
 export function HeroImageDecoration() {
   return (
