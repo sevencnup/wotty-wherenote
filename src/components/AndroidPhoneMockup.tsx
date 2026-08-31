@@ -12,7 +12,8 @@ export function AndroidPhoneMockup() {
         height="2376"
         decoding="sync"
         fetchPriority="high"
-        className="absolute left-[18.2%] top-[4.8%] z-0 h-[91%] w-[63.7%] rounded-[12%] object-fill"
+        className="absolute left-[18.55%] top-[3.05%] z-0 h-[93.82%] w-[62.9%] object-fill"
+        style={{ borderRadius: '8.5% / 4.5%' }}
         draggable="false"
       />
       <img
