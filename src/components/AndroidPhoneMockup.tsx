@@ -3,14 +3,16 @@ const screenUrl = new URL('../../y.jpg', import.meta.url).href;
 
 export function AndroidPhoneMockup() {
   return (
-    <div className="relative mx-auto aspect-[2/3] w-full max-w-[340px] select-none sm:max-w-[390px]">
+    <div className="relative mx-auto aspect-[2/3] w-full max-w-[410px] select-none sm:max-w-[440px]">
       {/* y.jpg 是应用完整界面，放在透明手机外框下方 */}
       <img
         src={screenUrl}
         alt="随记 Android 应用界面"
         width="1080"
         height="2376"
-        className="absolute left-[18.2%] top-[4.8%] z-0 h-[91%] w-[63.7%] rounded-[12%] object-cover"
+        decoding="sync"
+        fetchPriority="high"
+        className="absolute left-[18.2%] top-[4.8%] z-0 h-[91%] w-[63.7%] rounded-[12%] object-fill"
         draggable="false"
       />
       <img

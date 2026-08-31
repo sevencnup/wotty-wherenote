@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import {
-  Monitor,
   CheckCircle2,
   Search,
   Camera,
   Download,
   Menu,
-  X,
-  MessageCircle,
-  Share2
+  X
 } from 'lucide-react';
 import {
   FeatureIconLocation,
@@ -166,14 +163,20 @@ export default function App() {
                 让生活井井有条。
               </p>
 
-              {/* 三大平台按钮 */}
+              {/* 平台下载按钮 */}
               <div className="pt-3 flex flex-wrap gap-3.5">
-                {/* App Store 下载 */}
-                <button className="flex items-center space-x-3 bg-[#1e5843] hover:bg-[#164735] text-white px-5 py-3 rounded-xl font-medium shadow-md shadow-emerald-950/15 hover:shadow-lg transition-all active:scale-[0.98]">
+                {/* App Store 暂未开放 */}
+                <button
+                  type="button"
+                  disabled
+                  aria-label="App Store 下载暂未开放"
+                  title="App Store 下载暂未开放"
+                  className="flex cursor-not-allowed items-center space-x-3 rounded-xl border border-slate-300 bg-slate-200 px-5 py-3 font-medium text-slate-500 shadow-none"
+                >
                   <PlatformAppleIcon />
                   <div className="text-left leading-none">
-                    <span className="text-[11px] block font-light opacity-90">App Store</span>
-                    <span className="text-xs font-semibold">下载</span>
+                    <span className="block text-[11px] font-light">App Store</span>
+                    <span className="text-xs font-semibold">暂未开放</span>
                   </div>
                 </button>
 
@@ -186,14 +189,6 @@ export default function App() {
                   </div>
                 </button>
 
-                {/* 网页版 */}
-                <button className="flex items-center space-x-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-5 py-3 rounded-xl font-medium shadow-sm hover:border-emerald-300 transition-all active:scale-[0.98]">
-                  <Monitor className="w-5 h-5 text-emerald-800" />
-                  <div className="text-left leading-none">
-                    <span className="text-[11px] block text-slate-500 font-light">网页版</span>
-                    <span className="text-xs font-semibold text-slate-800">立即使用</span>
-                  </div>
-                </button>
               </div>
             </div>
 
@@ -280,17 +275,17 @@ export default function App() {
                   <Download className="w-4 h-4" />
                   <span>立即下载随记</span>
                 </button>
-                <p className="text-[11px] text-slate-400 mt-2">支持 iOS、Android 与网页版</p>
+                <p className="text-[11px] text-slate-400 mt-2">当前支持 Android 下载</p>
               </div>
             </div>
 
             {/* 中间 Android 手机模型 */}
-            <div className="lg:col-span-4 flex justify-center">
+            <div className="lg:col-span-5 flex justify-center">
               <AndroidPhoneMockup />
             </div>
 
             {/* 右侧 2 大特色胶囊卡片 */}
-            <div className="lg:col-span-4 space-y-4">
+            <div className="lg:col-span-3 space-y-4">
               {/* 特色 1：秒级模糊搜索 */}
               <div className="bg-white/95 rounded-2xl p-4.5 border border-emerald-100 shadow-sm flex items-center space-x-4 hover:shadow-md transition">
                 <div className="w-12 h-12 rounded-xl bg-[#eaf4ee] flex items-center justify-center shrink-0 text-emerald-800">
@@ -320,9 +315,9 @@ export default function App() {
       {/* 底部页脚 (Footer) */}
       <footer id="about" className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 w-full pb-10">
         <div className="bg-[#eaf3ee] rounded-3xl p-8 sm:p-10 border border-emerald-200/60">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="flex items-start">
             {/* 左侧品牌 */}
-            <div className="md:col-span-6 flex items-start space-x-4">
+            <div className="flex items-start space-x-4">
               <BrandLogo className="w-14 h-14 shrink-0" />
               <div className="text-left">
                 <div className="flex items-center space-x-2">
@@ -334,38 +329,12 @@ export default function App() {
               </div>
             </div>
 
-            {/* 快速导航 */}
-            <div className="md:col-span-3 text-left">
-              <h5 className="text-xs font-bold text-slate-800 mb-3 tracking-wide">快速导航</h5>
-              <ul className="space-y-1.5 text-xs text-slate-600">
-                <li><a href="#home" className="hover:text-emerald-700 transition">首页</a></li>
-                <li><a href="#features" className="hover:text-emerald-700 transition">功能介绍</a></li>
-                <li><a href="#download" className="hover:text-emerald-700 transition">下载应用</a></li>
-                <li><a href="#about" className="hover:text-emerald-700 transition">关于我们</a></li>
-              </ul>
-            </div>
-
-            {/* 关注我们 */}
-            <div className="md:col-span-3 text-left">
-              <h5 className="text-xs font-bold text-slate-800 mb-3 tracking-wide">关注我们</h5>
-              <div className="flex items-center space-x-3 text-emerald-800">
-                <a href="#wechat" title="微信" className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 flex items-center justify-center transition">
-                  <MessageCircle className="w-4 h-4" />
-                </a>
-                <a href="#weibo" title="微博" className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 flex items-center justify-center transition">
-                  <Share2 className="w-4 h-4" />
-                </a>
-                <a href="#community" title="交流社区" className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 flex items-center justify-center transition">
-                  <span className="text-sm font-bold">💬</span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* 备案号与版权 */}
+        {/* 版权信息 */}
         <div className="text-center mt-6 text-xs text-slate-400">
-          © 2024 WhereNote 随记 · 粤ICP备2024XXXX号
+          © 2024 WhereNote 随记
         </div>
       </footer>
     </div>
