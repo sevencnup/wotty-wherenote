@@ -47,6 +47,10 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.3.0 (2026-09-06)
+- 将应用版本升级为 0.3.0，versionCode 12。
+- 保留网站 API 检查更新与 APK 下载流程。
+
 ### v0.2.9 (2026-08-30)
 - 使用新的 WhereNote Logo 替换关于页品牌标识与 Android 应用图标。
 - “记一笔”和“东西在哪”顶部移除 Logo 图标，仅保留文字标题。

@@ -134,7 +134,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text(
-                        text = "v0.2.9 · 精致森系版",
+                        text = "v0.3.0 · 精致森系版",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
