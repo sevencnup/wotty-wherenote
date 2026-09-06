@@ -1,8 +1,10 @@
 package com.example.wherenote.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,6 +40,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,12 +58,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.wherenote.BuildConfig
+import com.example.wherenote.util.UpdateApi
+import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun AboutContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val updateUrl = ""
-    val siteUrl = "https://wherenote.sevencn.com"
+    val scope = rememberCoroutineScope()
+    var checkingUpdate by remember { mutableStateOf(false) }
+    val siteUrl = "https://wherenote.wotty.app"
 
     Column(
         modifier = modifier
@@ -197,7 +211,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
             ) {
                 ActionListItem(
                     icon = Icons.Default.Language,
-                    title = "官方站点",
+                    title = "项目网站",
                     subtitle = siteUrl.removePrefix("https://"),
                     onClick = {
                         runCatching {
@@ -211,11 +225,49 @@ fun AboutContent(modifier: Modifier = Modifier) {
         // 检查更新按钮
         Button(
             onClick = {
-                if (updateUrl.isBlank()) {
-                    Toast.makeText(context, "当前已是最新版本 (v0.2.9)", Toast.LENGTH_SHORT).show()
-                } else {
-                    runCatching {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)))
+                if (!checkingUpdate) {
+                    checkingUpdate = true
+                    scope.launch {
+                        try {
+                            val update = withContext(Dispatchers.IO) {
+                                UpdateApi.checkForUpdate()
+                            }
+                            val hasNewerVersion = update.versionCode?.let {
+                                it > BuildConfig.VERSION_CODE
+                            } ?: isVersionNewer(update.versionName, BuildConfig.VERSION_NAME)
+
+                            if (!hasNewerVersion) {
+                                Toast.makeText(
+                                    context,
+                                    "当前已是最新版本 (v" + BuildConfig.VERSION_NAME + ")",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "正在下载新版本 v" + update.versionName,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                val apk = withContext(Dispatchers.IO) {
+                                    UpdateApi.downloadApk(
+                                        downloadUrl = update.downloadUrl,
+                                        targetFile = File(
+                                            context.filesDir,
+                                            "updates/wherenote-" + update.versionName + ".apk"
+                                        )
+                                    )
+                                }
+                                installApk(context, apk)
+                            }
+                        } catch (error: Exception) {
+                            Toast.makeText(
+                                context,
+                                error.message ?: "检查更新失败，请稍后重试",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } finally {
+                            checkingUpdate = false
+                        }
                     }
                 }
             },
@@ -234,7 +286,10 @@ fun AboutContent(modifier: Modifier = Modifier) {
         ) {
             Icon(Icons.Default.SystemUpdate, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(8.dp))
-            Text("检查版本更新", fontWeight = FontWeight.SemiBold)
+            Text(
+                text = if (checkingUpdate) "正在检查更新…" else "检查版本更新",
+                fontWeight = FontWeight.SemiBold
+            )
         }
 
         Row(
@@ -258,6 +313,36 @@ fun AboutContent(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(8.dp))
     }
+}
+
+private fun isVersionNewer(remote: String, current: String): Boolean {
+    fun parse(version: String): List<Int> {
+        val parts = version.substringBefore('-')
+            .split('.')
+            .map { it.toIntOrNull() ?: 0 }
+            .take(3)
+        return parts + List(3 - parts.size) { 0 }
+    }
+
+    val remoteParts = parse(remote)
+    val currentParts = parse(current)
+    return remoteParts.zip(currentParts)
+        .firstOrNull { (remotePart, currentPart) -> remotePart != currentPart }
+        ?.let { (remotePart, currentPart) -> remotePart > currentPart } == true
+}
+
+private fun installApk(context: Context, apkFile: File) {
+    val uri = FileProvider.getUriForFile(
+        context,
+        context.packageName + ".fileprovider",
+        apkFile
+    )
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        setDataAndType(uri, "application/vnd.android.package-archive")
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    context.startActivity(intent)
 }
 
 @Composable
