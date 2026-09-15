@@ -70,7 +70,7 @@ fun AboutContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var checkingUpdate by remember { mutableStateOf(false) }
-    val siteUrl = "https://wherenote.wotty.app"
+    val siteUrl = "https://w.wotty.app"
 
     Column(
         modifier = modifier

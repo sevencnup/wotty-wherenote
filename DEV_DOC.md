@@ -47,6 +47,10 @@ WhereNote/
 - 在 Android Studio 中打开 WhereNote 目录可直接 Run / 用 `@Preview` 预览组件。
 
 ## 六、版本记录
+### v0.3.0 当前版本发布构建 (2026-09-15)
+- 切换应用网站与更新服务域名。
+- 保持应用版本不变并生成独立发布包。
+
 ### v0.3.0 (2026-09-06)
 - 将应用版本升级为 0.3.0，versionCode 12。
 - 保留网站 API 检查更新与 APK 下载流程。
@@ -116,3 +120,18 @@ WhereNote/
 - 初始骨架:Jetpack Compose + Room + Material3。
 - 实现记录的增、列表、搜索、编辑、删除 MVP 流程。
 - 配置 Gradle wrapper,可通过命令行构建。
+
+## 七、w.wotty.app 域名切换与 GitHub 发布
+
+### 7.1 目标与约束
+- 将应用内显示的网站地址和检查更新 API 地址从 `wherenote.wotty.app` 切换为 `w.wotty.app`。
+- 保持 `versionCode = 12` 与 `versionName = 0.3.0` 不变。
+- 不覆盖既有 APK；本次构建产物使用带域名和构建日期的独立文件名。
+- 不覆盖现有 `v0.3.0` 标签或 Release；以独立 GitHub Release 标签发布本次当前版本构建。
+
+### 7.2 执行步骤
+- [x] 更新 `UpdateApi` 的更新服务地址及关于页的网站地址。
+- [x] 确认版本号未发生变化，并执行 Debug APK 构建。
+- [x] 将构建 APK 复制为独立命名的发布包，并校验 APK 元数据。
+- [x] 提交域名切换代码并推送 GitHub。
+- [x] 创建独立 GitHub Release，上传本次 APK，校验 Release 资源。

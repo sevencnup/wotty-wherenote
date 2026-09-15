@@ -12,7 +12,7 @@ data class UpdateInfo(
 )
 
 object UpdateApi {
-    private const val UPDATE_URL = "https://wherenote.wotty.app/api/update"
+    private const val UPDATE_URL = "https://w.wotty.app/api/update"
 
     fun checkForUpdate(): UpdateInfo {
         val response = request(UPDATE_URL)
